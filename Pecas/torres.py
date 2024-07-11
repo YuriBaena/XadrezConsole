@@ -28,8 +28,17 @@ class TorreP:
 
                 possivel = [self.posicao[0] - i, self.posicao[1]]
 
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
                 else:
                     break
 
@@ -48,8 +57,17 @@ class TorreP:
 
                 possivel = [self.posicao[0] + j, self.posicao[1]]
 
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
                 else:
                     break
 
@@ -70,28 +88,50 @@ class TorreP:
 
                 possivel = [self.posicao[0], self.posicao[1] + i]
 
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
                 else:
                     break
 
         # Esquerda
 
         if self.posicao[1] > 1:
-            esquerda = self.posicao[1]
+            esquerda = self.posicao[1] + 1
         else:
             esquerda = 0
 
         for j in range(1, esquerda):
             # Peca na esquerda
-            if 0 <= self.posicao[0] - j < 8:
+            if 0 <= self.posicao[1] - j < 8:
+
                 frente = str(colunas[self.posicao[1] - j]) + str(linhas[self.posicao[0]])
                 peca_da_frente = posicoes[frente].ocupado
 
                 possivel = [self.posicao[0], self.posicao[1] - j]
 
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+
                 else:
                     break
 
@@ -126,8 +166,17 @@ class TorreB:
 
                 possivel = [self.posicao[0] - i, self.posicao[1]]
 
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
                 else:
                     break
 
@@ -146,8 +195,17 @@ class TorreB:
 
                 possivel = [self.posicao[0] + j, self.posicao[1]]
 
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
                 else:
                     break
 
@@ -168,28 +226,49 @@ class TorreB:
 
                 possivel = [self.posicao[0], self.posicao[1] + i]
 
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
                 else:
                     break
 
         # Esquerda
 
         if self.posicao[1] > 1:
-            esquerda = self.posicao[1]
+            esquerda = self.posicao[1] + 1
         else:
             esquerda = 0
 
         for j in range(1, esquerda):
             # Peca na esquerda
-            if 0 <= self.posicao[0] - j < 8:
+            if 0 <= self.posicao[1] - j < 8:
+
                 frente = str(colunas[self.posicao[1] - j]) + str(linhas[self.posicao[0]])
                 peca_da_frente = posicoes[frente].ocupado
 
                 possivel = [self.posicao[0], self.posicao[1] - j]
 
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
                 if not peca_da_frente and possivel != self.posicao:
                     self.possibilidades.append(possivel)
+
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+
                 else:
                     break
 
