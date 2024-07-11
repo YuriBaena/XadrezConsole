@@ -1,11 +1,14 @@
 class PeaoP:
-    def __init__(self, j):
+    def __init__(self, i, j):
         self.ele = "♟"
         self.cor = "P"
 
-        self.posicao = [1, j]
+        self.posicao = [i, j]
 
-        self.primeiro_mov = True
+        if self.posicao[0] == 1 and self.posicao[1] in (0, 1, 2, 3, 4, 5, 6, 7):
+            self.primeiro_mov = True
+        else:
+            self.primeiro_mov = False
 
     def alternativas(self):
         if self.primeiro_mov:
@@ -20,13 +23,16 @@ class PeaoP:
 
 
 class PeaoB:
-    def __init__(self, j):
+    def __init__(self, i, j):
         self.ele = "♙"
         self.cor = "B"
 
-        self.posicao = [6, j]
+        self.posicao = [i, j]
 
-        self.primeiro_mov = True
+        if self.posicao[0] == 6 and self.posicao[1] in (0,1,2,3,4,5,6,7):
+            self.primeiro_mov = True
+        else:
+            self.primeiro_mov = False
 
     def alternativas(self):
         if self.primeiro_mov:
@@ -40,13 +46,4 @@ class PeaoB:
             ]
 
 
-if __name__ == '__main__':
-    # Testa possibilidades
-    '''peao_preto = PeaoP(5)
-    peao_preto.possibilidades()
-    mov1 = peao_preto.possibilidades
-    print(mov1)
-    peao_branco = PeaoB(5)
-    peao_branco.possibilidades()
-    mov2 = peao_branco.possibilidades
-    print(mov2)'''
+

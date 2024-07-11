@@ -62,13 +62,3 @@ class RainhaB:
         # Remover posição atual das possibilidades
         self.possibilidades = [pos for pos in self.possibilidades if pos != self.posicao]
 
-if __name__ == '__main__':
-    #Testa possibilidades
-    rainha_preta = RainhaP(2,3)
-    rainha_preta.possibilidades()
-    mov1 = rainha_preta.possibilidades
-    print(mov1)
-    rainha_branca = RainhaB(7,0)
-    rainha_branca.possibilidades()
-    mov2 = rainha_branca.possibilidades
-    print(mov2)

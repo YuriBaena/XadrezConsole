@@ -55,14 +55,3 @@ class CavaloB:
             if (0 <= i[0] <= 7) and (0 <= i[1] <= 7):
                 self.possibilidades.append(i)
 
-if __name__ == '__main__':
-    #Teste de alternativas
-    '''cavalo_preto = CavaloP(5,5)
-    cavalo_preto.possibilidades()
-    mov1 =cavalo_preto.possibilidades
-    print(mov1)
-
-    cavalo_branco = CavaloP(7,1)
-    cavalo_branco.possibilidades()
-    mov2 = cavalo_branco.possibilidades
-    print(mov2)'''

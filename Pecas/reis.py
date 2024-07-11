@@ -66,13 +66,3 @@ class ReiB:
         for i in range(qtd):
             self.possibilidades.remove(self.posicao)
 
-if __name__ == '__main__':
-    #Testa possibilidades
-    '''rei_preto = ReiP(4,4)
-    rei_preto.possibilidades()
-    mov1 = rei_preto.possibilidades
-    print(mov1)
-    rei_branco = ReiB(7,7)
-    rei_branco.possibilidades()
-    mov2 = rei_branco.possibilidades
-    print(mov2)'''

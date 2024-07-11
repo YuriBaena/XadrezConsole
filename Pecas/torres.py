@@ -45,13 +45,3 @@ class TorreB:
             if possivel != self.posicao:
                 self.possibilidades.append(possivel)
 
-if __name__ == '__main__':
-    #Testa possibilidades
-    '''torre_preta = TorreP(4,4)
-    torre_preta.possibilidades()
-    mov1 = torre_preta.possibilidades
-    print(mov1)
-    torre_branca = TorreB(7,7)
-    torre_branca.possibilidades()
-    mov2 = torre_branca.possibilidades
-    print(mov2)'''

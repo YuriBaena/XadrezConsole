@@ -40,10 +40,10 @@ class Board:
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, ReiP(linha, coluna))
                 # Peao Preto
                 elif linha == 1:
-                    self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, PeaoP(coluna))
+                    self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, PeaoP(linha, coluna))
                 # Peao Branco
                 elif linha == 6:
-                    self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, PeaoB(coluna))
+                    self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, PeaoB(linha, coluna))
                 # Torre Branca
                 elif linha == 7 and coluna in (0, 7):
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, TorreB(linha, coluna))
@@ -74,6 +74,8 @@ class Board:
                     posicao = colunas[coluna] + linhas[linha]
                     if posicao in self.posicoes:
                         print(f" {self.posicoes[posicao].img} ", end="")
+                    else:
+                        print(f" . ", end="")
                 print()
 
             print("  | _ _ _ _ _ _ _ _ _ _ _ _ _ ")
@@ -92,6 +94,8 @@ class Board:
                         print(f" {self.posicoes[posicao].img} ", end="")
                     elif posicao in movimentos:
                         print(f" # ", end="")
+                    else:
+                        print(f" . ", end="")
                 print()
 
             print("  | _ _ _ _ _ _ _ _ _ _ _ _ _ ")
@@ -104,18 +108,85 @@ class Board:
 
     def escolhe(self):
         while True:
-            posicao = input("Diga a posição da peça que deseja usar: ")
+            posicao = input("Diga a posição \nda peça que deseja usar (letra/num): ")
             if posicao in self.posicoes:
                 if self.vez == self.posicoes[posicao].peca.cor:
-                    movimentos = self.posicoes[posicao].possivel
+                    movimentos = self.posicoes[posicao].coordena(self.posicoes)
                     self.mostra(movimentos)
-                    break
+                    a = 0
+                    for i, lugar in enumerate(movimentos):
+                        print(f"[ {i+1} ] para movimentar para {lugar}")
+                        a = i
+                    print(f"[ {a + 2} ] para escolher outra peca")
+                    qual = int(input("Qual opcao deseja: "))
+                    if qual != a + 2:
+                        pra_onde = movimentos[qual-1]
+                        peca = self.posicoes[posicao]
+                        self.movimenta(peca, pra_onde)
+                        break
                 else:
                     print("peca da cor errada")
             else:
                 print("posição invalida")
 
+    def movimenta(self, peca, onde):
+
+        coluna = onde[0]
+        linha = int(onde[1])
+
+        x = linhas.index(str(linha))
+        y = colunas.index(coluna)
+
+        x1, y1 = peca.posicao
+
+        coluna = colunas[y1]
+        linha = linhas[x1]
+        coordenada = coluna + linha
+
+        if peca.nome == "Peao":
+            if self.vez == "P":
+                boneco = PeaoP(x, y)
+            else:
+                boneco = PeaoB(x, y)
+        elif peca.nome == "Bispo":
+            if self.vez == "P":
+                boneco = BispoP(x, y)
+            else:
+                boneco = BispoB(x, y)
+        elif peca.nome == "Cavalo":
+            if self.vez == "P":
+                boneco = CavaloP(x, y)
+            else:
+                boneco = CavaloB(x, y)
+        elif peca.nome == "Rainha":
+            if self.vez == "P":
+                boneco = RainhaP(x, y)
+            else:
+                boneco = RainhaB(x, y)
+        elif peca.nome == "Rei":
+            if self.vez == "P":
+                boneco = ReiP(x, y)
+            else:
+                boneco = ReiB(x, y)
+        elif peca.nome == "Torre":
+            if self.vez == "P":
+                boneco = TorreP(x, y)
+            else:
+                boneco = TorreB(x, y)
+
+        self.posicoes[coordenada] = Posicao(x1, y1)
+        self.posicoes[onde] = Posicao(x, y, boneco)
+
+        if self.vez == "P":
+            self.vez = "B"
+        else:
+            self.vez = "P"
+
+
 
 board = Board()
-board.mostra()
-board.escolhe()
+while True:
+    board.mostra()
+    board.escolhe()
+
+
