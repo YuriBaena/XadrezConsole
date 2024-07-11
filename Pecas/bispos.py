@@ -6,6 +6,7 @@ class BispoP:
         self.posicao = [x, y]
 
     def alternativas(self):
+
         self.possibilidades = []
 
         # Diagonal Principal (x + y constantes)
@@ -48,3 +49,5 @@ class BispoB:
 
         # Remover posição atual das possibilidades
         self.possibilidades = [pos for pos in self.possibilidades if pos != self.posicao]
+
+

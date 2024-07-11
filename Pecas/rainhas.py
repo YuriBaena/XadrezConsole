@@ -5,7 +5,7 @@ class RainhaP:
 
         self.posicao = [x, y]
 
-    def alternativas(self):
+    def alternativas(self, posicoes):
         self.possibilidades = []
 
         # Vertical e Horizontal
@@ -37,7 +37,7 @@ class RainhaB:
 
         self.posicao = [x, y]
 
-    def alternativas(self):
+    def alternativas(self, posicoes):
         self.possibilidades = []
 
         # Vertical e Horizontal

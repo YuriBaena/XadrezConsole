@@ -108,22 +108,26 @@ class Board:
 
     def escolhe(self):
         while True:
-            posicao = input("Diga a posição \nda peça que deseja usar (letra/num): ")
+            print()
+            posicao = input("Diga a posição da peça \nque deseja usar (letra/num): ")
             if posicao in self.posicoes:
                 if self.vez == self.posicoes[posicao].peca.cor:
                     movimentos = self.posicoes[posicao].coordena(self.posicoes)
-                    self.mostra(movimentos)
-                    a = 0
-                    for i, lugar in enumerate(movimentos):
-                        print(f"[ {i+1} ] para movimentar para {lugar}")
-                        a = i
-                    print(f"[ {a + 2} ] para escolher outra peca")
-                    qual = int(input("Qual opcao deseja: "))
-                    if qual != a + 2:
-                        pra_onde = movimentos[qual-1]
-                        peca = self.posicoes[posicao]
-                        self.movimenta(peca, pra_onde)
-                        break
+                    if len(movimentos) != 0:
+                        self.mostra(movimentos)
+                        a = 0
+                        for i, lugar in enumerate(movimentos):
+                            print(f"[ {i+1} ] para movimentar para {lugar}")
+                            a = i
+                        print(f"[ {a + 2} ] para escolher outra peca")
+                        qual = int(input("Qual opcao deseja: "))
+                        if qual != a + 2:
+                            pra_onde = movimentos[qual-1]
+                            peca = self.posicoes[posicao]
+                            self.movimenta(peca, pra_onde)
+                            break
+                    else:
+                        print("Nao existem movimentos possiveis para essa peca")
                 else:
                     print("peca da cor errada")
             else:
@@ -182,11 +186,30 @@ class Board:
         else:
             self.vez = "P"
 
+    def ganhou(self):
+        reis = []
+
+        for i in self.posicoes.values():
+            if i.img in "♔♚":
+                reis.append(i.peca.cor)
+
+        if "P" not in reis or "B" not in reis:
+            return reis
+        else:
+            return False
 
 
 board = Board()
 while True:
     board.mostra()
     board.escolhe()
+    if board.ganhou():
+        rei = board.ganhou()
+        if "B" in rei:
+            print("O vencedor foi o Branco")
+        else:
+            print("O vencedor foi o Preto")
+
+        break
 
 

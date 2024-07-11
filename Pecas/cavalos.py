@@ -5,7 +5,7 @@ class CavaloP:
 
         self.posicao = [x, y]
 
-    def alternativas(self):
+    def alternativas(self, posicoes):
         self.possibilidades = []
 
         #L para cima/baixo
@@ -34,7 +34,7 @@ class CavaloB:
 
         self.posicao = [x, y]
 
-    def alternativas(self):
+    def alternativas(self, posicoes):
         self.possibilidades = []
 
         # L para cima/baixo
