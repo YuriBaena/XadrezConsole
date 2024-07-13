@@ -8,29 +8,68 @@ class ReiP:
     def alternativas(self, posicoes):
         self.possibilidades = []
 
+        linhas = [str(i) for i in range(8, 0, -1)]
+        colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
+
         # Vertical
         for i in range(-1, 2):
-            possivel = [self.posicao[0] + i, self.posicao[1]]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[0] + i < 8:
+                possivel = [self.posicao[0] + i, self.posicao[1]]
+
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)
 
         # Horizontal
         for j in range(-1, 2):
-            possivel = [self.posicao[0], self.posicao[1] + j]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[1] + j < 8:
+                possivel = [self.posicao[0], self.posicao[1] + j]
+
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)
 
         # Diag. Principal
         for k1 in range(-1, 2):
-            possivel = [self.posicao[0] + k1, self.posicao[1] + k1]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[0] + k1 < 8 and 0 <= self.posicao[1] + k1 < 8:
+                possivel = [self.posicao[0] + k1, self.posicao[1] + k1]
+
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)
 
         # Diag. Secundaria
         for k1 in range(-1, 2):
-            possivel = [self.posicao[0] + k1, self.posicao[1] - k1]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[0] + k1 < 8 and 0 <= self.posicao[1] - k1 < 8:
+                possivel = [self.posicao[0] + k1, self.posicao[1] - k1]
 
-        qtd = self.possibilidades.count(self.posicao)
-        for i in range(qtd):
-            self.possibilidades.remove(self.posicao)
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)
 
 
 class ReiB:
@@ -43,26 +82,65 @@ class ReiB:
     def alternativas(self, posicoes):
         self.possibilidades = []
 
+        linhas = [str(i) for i in range(8, 0, -1)]
+        colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
+
         # Vertical
         for i in range(-1, 2):
-            possivel = [self.posicao[0] + i, self.posicao[1]]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[0] + i < 8:
+                possivel = [self.posicao[0] + i, self.posicao[1]]
+
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)
 
         # Horizontal
         for j in range(-1, 2):
-            possivel = [self.posicao[0], self.posicao[1] + j]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[1] + j < 8:
+                possivel = [self.posicao[0], self.posicao[1] + j]
+
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)
 
         # Diag. Principal
         for k1 in range(-1, 2):
-            possivel = [self.posicao[0] + k1, self.posicao[1] + k1]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[0] + k1 < 8 and 0 <= self.posicao[1] + k1 < 8:
+                possivel = [self.posicao[0] + k1, self.posicao[1] + k1]
+
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)
 
         # Diag. Secundaria
         for k1 in range(-1, 2):
-            possivel = [self.posicao[0] + k1, self.posicao[1] - k1]
-            self.possibilidades.append(possivel)
+            if 0 <= self.posicao[0] + k1 < 8 and 0 <= self.posicao[1] - k1 < 8:
+                possivel = [self.posicao[0] + k1, self.posicao[1] - k1]
 
-        qtd = self.possibilidades.count(self.posicao)
-        for i in range(qtd):
-            self.possibilidades.remove(self.posicao)
+                coordenada = str(colunas[possivel[1]]) + str(linhas[possivel[0]])
+                local = posicoes[coordenada].ocupado
+
+                if local:
+                    peca_no_local = posicoes[coordenada].peca.cor
+
+                if not local or (local and peca_no_local != self.cor):
+                    if possivel != self.posicao:
+                        self.possibilidades.append(possivel)

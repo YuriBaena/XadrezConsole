@@ -72,6 +72,6 @@ class CavaloB:
                 if local:
                     peca_no_local = posicoes[coordenada].peca.cor
 
-                if not local or local and peca_no_local != self.cor:
+                if not local or (local and peca_no_local != self.cor):
                     self.possibilidades.append(i)
 
