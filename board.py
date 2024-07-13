@@ -21,6 +21,7 @@ class Board:
         linhas = [str(i) for i in range(8, 0, -1)]
         colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
 
+        #Organiza tabuleiro
         for linha in range(self.comprimento):
             for coluna in range(self.altura):
                 # Torre Preta
@@ -61,6 +62,9 @@ class Board:
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, ReiB(linha, coluna))
                 else:
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna)
+
+        #Atualiza movimentos possiveis
+        self.renova_movimentos_possiveis()
 
     def mostra(self, movimentos=None):
 
@@ -125,6 +129,7 @@ class Board:
                             pra_onde = movimentos[qual-1]
                             peca = self.posicoes[posicao]
                             self.movimenta(peca, pra_onde)
+                            self.renova_movimentos_possiveis()
                             break
                     else:
                         print("Nao existem movimentos possiveis para essa peca")
@@ -198,6 +203,18 @@ class Board:
         else:
             return False
 
+    def renova_movimentos_possiveis(self):
+        self.movimentos_possiveis_branco = {}
+
+        self.movimentos_possiveis_preto = {}
+
+        for i in self.posicoes.values():
+            if i.peca is not None:
+                i.peca.alternativas(self.posicoes)
+                if i.peca.cor == "P":
+                    self.movimentos_possiveis_preto[i.peca] = i.peca.possibilidades
+                else:
+                    self.movimentos_possiveis_branco[i.peca] = i.peca.possibilidades
 
 board = Board()
 while True:
