@@ -6,27 +6,246 @@ class RainhaP:
         self.posicao = [x, y]
 
     def alternativas(self, posicoes):
-
         self.possibilidades = []
 
-        # Vertical e Horizontal
-        for i in range(8):
-            if i != self.posicao[0]:  # vertical (x fixo)
-                self.possibilidades.append([i, self.posicao[1]])
-            if i != self.posicao[1]:  # horizontal (y fixo)
-                self.possibilidades.append([self.posicao[0], i])
+        linhas = [str(i) for i in range(8, 0, -1)]
+        colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
 
-        # Diagonais
-        for k in range(-7, 8):
-            # Diagonal Principal (x + y constantes)
-            possivel1 = [self.posicao[0] + k, self.posicao[1] + k]
-            if 0 <= possivel1[0] < 8 and 0 <= possivel1[1] < 8 and possivel1 != self.posicao:
-                self.possibilidades.append(possivel1)
+        # Vertical
+        # Cima
+        if self.posicao[0] > 1:
+            cima = self.posicao[0] + 1
+        else:
+            cima = 0
 
-            # Diagonal Secundária (x - y constantes)
-            possivel2 = [self.posicao[0] + k, self.posicao[1] - k]
-            if 0 <= possivel2[0] < 8 and 0 <= possivel2[1] < 8 and possivel2 != self.posicao:
-                self.possibilidades.append(possivel2)
+        for i in range(1, cima):
+            # Peca na frente
+            if 0 <= self.posicao[0] - i < 8:
+                frente = str(colunas[self.posicao[1]]) + str(linhas[self.posicao[0] - i])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0] - i, self.posicao[1]]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+                else:
+                    break
+
+        # Baixo
+
+        if self.posicao[0] < 7:
+            baixo = 8 - self.posicao[0]
+        else:
+            baixo = 0
+
+        for j in range(1, baixo):
+            # Peca atras
+            if 0 <= self.posicao[0] + j < 8:
+                frente = str(colunas[self.posicao[1]]) + str(linhas[self.posicao[0] + j])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0] + j, self.posicao[1]]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+                else:
+                    break
+
+        # Horizontal
+        # Direita
+        if self.posicao[1] < 7:
+            direita = 8 - self.posicao[1]
+        else:
+            direita = 0
+
+        for i in range(1, direita):
+            # Peca na direita
+            if 0 <= self.posicao[1] + i < 8:
+                frente = str(colunas[self.posicao[1] + i]) + str(linhas[self.posicao[0]])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0], self.posicao[1] + i]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+                else:
+                    break
+
+        # Esquerda
+
+        if self.posicao[1] > 1:
+            esquerda = self.posicao[1] + 1
+        else:
+            esquerda = 0
+
+        for j in range(1, esquerda):
+            # Peca na esquerda
+            if 0 <= self.posicao[1] - j < 8:
+
+                frente = str(colunas[self.posicao[1] - j]) + str(linhas[self.posicao[0]])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0], self.posicao[1] - j]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+
+                else:
+                    break
+
+        #Diagonais
+        # Direita Cima
+        if self.posicao[1] != 7:
+            direita_cima = 8 - self.posicao[1] + 1
+        else:
+            direita_cima = 0
+
+        for k in range(1, direita_cima):
+
+            if 0 <= self.posicao[1] + k < 8 and 0 <= self.posicao[0] - k < 8:
+
+                prox = colunas[self.posicao[1] + k] + linhas[self.posicao[0] - k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] - k, self.posicao[1] + k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break
+
+        # Esquerda Cima
+        if self.posicao[1] != 0:
+            esquerda_cima = self.posicao[1] + 1
+        else:
+            esquerda_cima = 0
+
+        for k in range(1, esquerda_cima):
+
+            if 0 <= self.posicao[1] - k < 8 and 0 <= self.posicao[0] - k < 8:
+
+                prox = colunas[self.posicao[1] - k] + linhas[self.posicao[0] - k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] - k, self.posicao[1] - k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break
+
+        # Direita Baixo
+        if self.posicao[1] != 7:
+            direita_baixo = 8 - self.posicao[1] + 1
+        else:
+            direita_baixo = 0
+
+        for k in range(1, direita_baixo):
+
+            if 0 <= self.posicao[1] + k < 8 and 0 <= self.posicao[0] + k < 8:
+
+                prox = colunas[self.posicao[1] + k] + linhas[self.posicao[0] + k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] + k, self.posicao[1] + k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break
+
+        # Esquerda Baixo
+        if self.posicao[1] != 0:
+            esquerda_baixo = self.posicao[1] + 1
+        else:
+            esquerda_baixo = 0
+
+        for k in range(1, esquerda_baixo):
+
+            if 0 <= self.posicao[1] - k < 8 and 0 <= self.posicao[0] + k < 8:
+
+                prox = colunas[self.posicao[1] - k] + linhas[self.posicao[0] + k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] + k, self.posicao[1] - k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break
 
 
 class RainhaB:
@@ -39,26 +258,241 @@ class RainhaB:
     def alternativas(self, posicoes):
         self.possibilidades = []
 
-        # Vertical e Horizontal
-        for i in range(8):
+        linhas = [str(i) for i in range(8, 0, -1)]
+        colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
 
-            if i != self.posicao[0]:  # vertical (x fixo)
-                self.possibilidades.append([i, self.posicao[1]])
-            if i != self.posicao[1]:  # horizontal (y fixo)
-                self.possibilidades.append([self.posicao[0], i])
+        # Vertical
+        # Cima
+        if self.posicao[0] > 1:
+            cima = self.posicao[0] + 1
+        else:
+            cima = 0
+
+        for i in range(1, cima):
+            # Peca na frente
+            if 0 <= self.posicao[0] - i < 8:
+                frente = str(colunas[self.posicao[1]]) + str(linhas[self.posicao[0] - i])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0] - i, self.posicao[1]]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+                else:
+                    break
+
+        # Baixo
+
+        if self.posicao[0] < 7:
+            baixo = 8 - self.posicao[0]
+        else:
+            baixo = 0
+
+        for j in range(1, baixo):
+            # Peca atras
+            if 0 <= self.posicao[0] + j < 8:
+                frente = str(colunas[self.posicao[1]]) + str(linhas[self.posicao[0] + j])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0] + j, self.posicao[1]]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+                else:
+                    break
+
+        # Horizontal
+        # Direita
+        if self.posicao[1] < 7:
+            direita = 8 - self.posicao[1]
+        else:
+            direita = 0
+
+        for i in range(1, direita):
+            # Peca na direita
+            if 0 <= self.posicao[1] + i < 8:
+                frente = str(colunas[self.posicao[1] + i]) + str(linhas[self.posicao[0]])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0], self.posicao[1] + i]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+                else:
+                    break
+
+        # Esquerda
+
+        if self.posicao[1] > 1:
+            esquerda = self.posicao[1] + 1
+        else:
+            esquerda = 0
+
+        for j in range(1, esquerda):
+            # Peca na esquerda
+            if 0 <= self.posicao[1] - j < 8:
+
+                frente = str(colunas[self.posicao[1] - j]) + str(linhas[self.posicao[0]])
+                peca_da_frente = posicoes[frente].ocupado
+
+                possivel = [self.posicao[0], self.posicao[1] - j]
+
+                if peca_da_frente:
+                    cor = posicoes[frente].peca.cor
+
+                if not peca_da_frente and possivel != self.posicao:
+                    self.possibilidades.append(possivel)
+
+                elif peca_da_frente and possivel != self.posicao:
+                    if cor != self.cor:
+                        self.possibilidades.append(possivel)
+                        break
+                    else:
+                        break
+
+                else:
+                    break
 
         # Diagonais
-        for k in range(-7, 8):
+        # Direita Cima
+        if self.posicao[1] != 7:
+            direita_cima = 8 - self.posicao[1] + 1
+        else:
+            direita_cima = 0
 
-            # Diagonal Principal (x + y constantes)
-            possivel1 = [self.posicao[0] + k, self.posicao[1] + k]
-            if 0 <= possivel1[0] < 8 and 0 <= possivel1[1] < 8 and possivel1 != self.posicao:
-                self.possibilidades.append(possivel1)
+        for k in range(1, direita_cima):
 
-            # Diagonal Secundária (x - y constantes)
-            possivel2 = [self.posicao[0] + k, self.posicao[1] - k]
-            if 0 <= possivel2[0] < 8 and 0 <= possivel2[1] < 8 and possivel2 != self.posicao:
-                self.possibilidades.append(possivel2)
+            if 0 <= self.posicao[1] + k < 8 and 0 <= self.posicao[0] - k < 8:
 
-        # Remover posição atual das possibilidades
-        self.possibilidades = [pos for pos in self.possibilidades if pos != self.posicao]
+                prox = colunas[self.posicao[1] + k] + linhas[self.posicao[0] - k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] - k, self.posicao[1] + k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break
+
+        # Esquerda Cima
+        if self.posicao[1] != 0:
+            esquerda_cima = self.posicao[1] + 1
+        else:
+            esquerda_cima = 0
+
+        for k in range(1, esquerda_cima):
+
+            if 0 <= self.posicao[1] - k < 8 and 0 <= self.posicao[0] - k < 8:
+
+                prox = colunas[self.posicao[1] - k] + linhas[self.posicao[0] - k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] - k, self.posicao[1] - k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break
+
+        # Direita Baixo
+        if self.posicao[1] != 7:
+            direita_baixo = 8 - self.posicao[1] + 1
+        else:
+            direita_baixo = 0
+
+        for k in range(1, direita_baixo):
+
+            if 0 <= self.posicao[1] + k < 8 and 0 <= self.posicao[0] + k < 8:
+
+                prox = colunas[self.posicao[1] + k] + linhas[self.posicao[0] + k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] + k, self.posicao[1] + k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break
+
+        # Esquerda Baixo
+        if self.posicao[1] != 0:
+            esquerda_baixo = self.posicao[1] + 1
+        else:
+            esquerda_baixo = 0
+
+        for k in range(1, esquerda_baixo):
+
+            if 0 <= self.posicao[1] - k < 8 and 0 <= self.posicao[0] + k < 8:
+
+                prox = colunas[self.posicao[1] - k] + linhas[self.posicao[0] + k]
+                tem = posicoes[prox].ocupado
+
+                if tem:
+                    cor = posicoes[prox].peca.cor
+
+                possivel = [self.posicao[0] + k, self.posicao[1] - k]
+
+                if not tem:
+                    self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
+                else:
+                    break
+
+            else:
+                break

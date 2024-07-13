@@ -7,23 +7,24 @@ from Pecas.rainhas import RainhaP, RainhaB
 from Pecas.reis import ReiP, ReiB
 
 
-class Board:
+class Tabuleiro:
     def __init__(self):
         global linhas, colunas
 
         self.altura = 8
         self.comprimento = 8
 
-        self.vez = "B"
+        self.vez = "B"  # Começa com as peças pretas
 
         self.posicoes = {}
 
         linhas = [str(i) for i in range(8, 0, -1)]
         colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
 
-        #Organiza tabuleiro
+        # Organiza o tabuleiro
         for linha in range(self.comprimento):
             for coluna in range(self.altura):
+
                 # Torre Preta
                 if linha == 0 and coluna in (0, 7):
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, TorreP(linha, coluna))
@@ -39,10 +40,10 @@ class Board:
                 # Rei Preto
                 elif linha == 0 and coluna == 4:
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, ReiP(linha, coluna))
-                # Peao Preto
+                # Peão Preto
                 elif linha == 1:
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, PeaoP(linha, coluna))
-                # Peao Branco
+                # Peão Branco
                 elif linha == 6:
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna, PeaoB(linha, coluna))
                 # Torre Branca
@@ -63,11 +64,10 @@ class Board:
                 else:
                     self.posicoes[colunas[coluna] + linhas[linha]] = Posicao(linha, coluna)
 
-        #Atualiza movimentos possiveis
+        # Atualiza os movimentos possíveis
         self.renova_movimentos_possiveis()
 
     def mostra(self, movimentos=None):
-
         if movimentos is None:
             movimentos = []
         print()
@@ -113,7 +113,7 @@ class Board:
     def escolhe(self):
         while True:
             print()
-            posicao = input("Diga a posição da peça \nque deseja usar (letra/num): ")
+            posicao = input("Informe a posição da peça \nque deseja usar (letra/num): ")
             if posicao in self.posicoes:
                 if self.vez == self.posicoes[posicao].peca.cor:
                     movimentos = self.posicoes[posicao].coordena(self.posicoes)
@@ -121,25 +121,29 @@ class Board:
                         self.mostra(movimentos)
                         a = 0
                         for i, lugar in enumerate(movimentos):
-                            print(f"[ {i+1} ] para movimentar para {lugar}")
+                            print(f"[ {i + 1} ] para movimentar para {lugar}")
                             a = i
-                        print(f"[ {a + 2} ] para escolher outra peca")
-                        qual = int(input("Qual opcao deseja: "))
+                        print(f"[ {a + 2} ] para escolher outra peça")
+                        qual = int(input("Qual opção deseja: "))
                         if qual != a + 2:
-                            pra_onde = movimentos[qual-1]
+                            pra_onde = movimentos[qual - 1]
                             peca = self.posicoes[posicao]
                             self.movimenta(peca, pra_onde)
                             self.renova_movimentos_possiveis()
+                            if self.procura_cheque():
+                                if self.vez == "P":
+                                    print(f"\n\n---O Branco está em xeque---\n\n")
+                                else:
+                                    print(f"\n\n---O Preto está em xeque---\n\n")
                             break
                     else:
-                        print("Nao existem movimentos possiveis para essa peca")
+                        print("Não existem movimentos possíveis para essa peça")
                 else:
-                    print("peca da cor errada")
+                    print("Peça da cor errada")
             else:
-                print("posição invalida")
+                print("Posição inválida")
 
     def movimenta(self, peca, onde):
-
         coluna = onde[0]
         linha = int(onde[1])
 
@@ -152,6 +156,7 @@ class Board:
         linha = linhas[x1]
         coordenada = coluna + linha
 
+        # Define qual peça vai ocupar a nova posição
         if peca.nome == "Peao":
             if self.vez == "P":
                 boneco = PeaoP(x, y)
@@ -183,9 +188,11 @@ class Board:
             else:
                 boneco = TorreB(x, y)
 
+        # Atualiza a posição da peça no tabuleiro
         self.posicoes[coordenada] = Posicao(x1, y1)
         self.posicoes[onde] = Posicao(x, y, boneco)
 
+        # Alterna a vez do jogador
         if self.vez == "P":
             self.vez = "B"
         else:
@@ -198,14 +205,13 @@ class Board:
             if i.img in "♔♚":
                 reis.append(i.peca.cor)
 
-        if "P" not in reis or "B" not in reis:
-            return reis
-        else:
-            return False
+        if "B" in reis and "P" not in reis:
+            print("O vencedor foi o Branco")
+        elif "P" in reis and "B" not in reis:
+            print("O vencedor foi o Preto")
 
     def renova_movimentos_possiveis(self):
         self.movimentos_possiveis_branco = {}
-
         self.movimentos_possiveis_preto = {}
 
         for i in self.posicoes.values():
@@ -216,17 +222,33 @@ class Board:
                 else:
                     self.movimentos_possiveis_branco[i.peca] = i.peca.possibilidades
 
-board = Board()
+    def procura_cheque(self):
+        # Verifica se o rei Branco está em xeque
+        for i in self.posicoes.values():
+            if i.img == "♔":
+                posicao_do_rei_branco = i.posicao
+
+        for i in self.movimentos_possiveis_preto.values():
+            for posicao in i:
+                if posicao == posicao_do_rei_branco:
+                    return True
+
+        # Verifica se o rei Preto está em xeque
+        for i in self.posicoes.values():
+            if i.img == "♚":
+                posicao_do_rei_preto = i.posicao
+
+        for i in self.movimentos_possiveis_branco.values():
+            for posicao in i:
+                if posicao == posicao_do_rei_preto:
+                    return True
+
+        return False
+
+
+tabuleiro = Tabuleiro()
 while True:
-    board.mostra()
-    board.escolhe()
-    if board.ganhou():
-        rei = board.ganhou()
-        if "B" in rei:
-            print("O vencedor foi o Branco")
-        else:
-            print("O vencedor foi o Preto")
-
+    tabuleiro.mostra()
+    tabuleiro.escolhe()
+    if tabuleiro.ganhou():
         break
-
-

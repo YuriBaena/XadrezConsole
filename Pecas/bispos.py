@@ -12,6 +12,7 @@ class BispoP:
         linhas = [str(i) for i in range(8, 0, -1)]
         colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
 
+        # Diagonais
         # Direita Cima
         if self.posicao[1] != 7:
             direita_cima = 8 - self.posicao[1] + 1
@@ -30,8 +31,11 @@ class BispoP:
 
                 possivel = [self.posicao[0] - k, self.posicao[1] + k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 
@@ -56,8 +60,11 @@ class BispoP:
 
                 possivel = [self.posicao[0] - k, self.posicao[1] - k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 
@@ -82,8 +89,11 @@ class BispoP:
 
                 possivel = [self.posicao[0] + k, self.posicao[1] + k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 
@@ -108,8 +118,11 @@ class BispoP:
 
                 possivel = [self.posicao[0] + k, self.posicao[1] - k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 
@@ -131,6 +144,7 @@ class BispoB:
         linhas = [str(i) for i in range(8, 0, -1)]
         colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
 
+        # Diagonais
         # Direita Cima
         if self.posicao[1] != 7:
             direita_cima = 8 - self.posicao[1] + 1
@@ -149,8 +163,11 @@ class BispoB:
 
                 possivel = [self.posicao[0] - k, self.posicao[1] + k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 
@@ -175,14 +192,16 @@ class BispoB:
 
                 possivel = [self.posicao[0] - k, self.posicao[1] - k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 
             else:
                 break
-
 
         # Direita Baixo
         if self.posicao[1] != 7:
@@ -202,14 +221,16 @@ class BispoB:
 
                 possivel = [self.posicao[0] + k, self.posicao[1] + k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 
             else:
                 break
-
 
         # Esquerda Baixo
         if self.posicao[1] != 0:
@@ -229,8 +250,11 @@ class BispoB:
 
                 possivel = [self.posicao[0] + k, self.posicao[1] - k]
 
-                if not tem or cor != self.cor:
+                if not tem:
                     self.possibilidades.append(possivel)
+                elif tem and cor != self.cor:
+                    self.possibilidades.append(possivel)
+                    break
                 else:
                     break
 

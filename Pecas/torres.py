@@ -6,14 +6,12 @@ class TorreP:
         self.posicao = [x, y]
 
     def alternativas(self, posicoes):
-        # Movimentos verticais da torre
         self.possibilidades = []
 
         linhas = [str(i) for i in range(8, 0, -1)]
         colunas = [chr(i) for i in range(ord('a'), ord('h') + 1)]
 
         # Vertical
-
         # Cima
         if self.posicao[0] > 1:
             cima = self.posicao[0] + 1
@@ -72,9 +70,7 @@ class TorreP:
                     break
 
         # Horizontal
-
         # Direita
-
         if self.posicao[1] < 7:
             direita = 8 - self.posicao[1]
         else:
